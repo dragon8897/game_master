@@ -1,24 +1,59 @@
-import React, { Component } from 'react'
-import { View, Text } from '@tarojs/components'
+import { Component, Config } from '@tarojs/taro'
+import { View} from '@tarojs/components'
+import { connect } from '@tarojs/redux'
+import { IndexProps, IndexState } from './index.interface'
 import './index.scss'
+import React from 'react'
 
-export default class Index extends Component {
+@connect(({ index }) => ({
+    ...index,
+}))
 
-  componentWillMount () { }
+class Index extends Component<IndexProps,IndexState > {
+  config:Config = {
+    navigationBarTitleText: 'taro_dva_typescript'
+  }
 
-  componentDidMount () { }
+  constructor(props: IndexProps) {
+    super(props)
+    this.state = {}
+  }
 
-  componentWillUnmount () { }
+  async getList() {
+    await this.props.dispatch({
+      type: 'index/getList',
+      payload: {}
+    })
+  }
 
-  componentDidShow () { }
+  componentDidMount() {
+    this.getList()
+  }
 
-  componentDidHide () { }
-
-  render () {
+  render() {
+    const { data } = this.props
+    console.log('this.props===>>',data);
+    
     return (
-      <View className='index'>
-        <Text>Hello world!</Text>
+      <View className='fx-index-wrap'>
+          <View className='index-topbar'>New资讯</View>
+          <View className='index-data'>
+            {
+              data && data.map((item,index) => {
+                return (
+                  <View className='index-list' key={index}>
+                    <View className='index-title'>{item.title}</View>
+                    <View className='index-img' style={`background-image: url(${item.thumbnail_pic_s})`}></View>
+                  </View>
+                )
+              })
+            }
+          </View>
       </View>
     )
   }
 }
+
+export default Index
+
+
