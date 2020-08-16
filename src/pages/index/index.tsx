@@ -1,18 +1,13 @@
-import { Component, Config } from '@tarojs/taro'
 import { View} from '@tarojs/components'
-import { connect } from '@tarojs/redux'
+import { connect } from 'react-redux'
 import { IndexProps, IndexState } from './index.interface'
 import './index.scss'
-import React from 'react'
+import React, { Component } from 'react'
 
 @connect(({ index }) => ({
     ...index,
 }))
-
 class Index extends Component<IndexProps,IndexState > {
-  config:Config = {
-    navigationBarTitleText: 'taro_dva_typescript'
-  }
 
   constructor(props: IndexProps) {
     super(props)
@@ -55,5 +50,3 @@ class Index extends Component<IndexProps,IndexState > {
 }
 
 export default Index
-
-

@@ -8,11 +8,11 @@ export default {
   },
 
   effects: {
-    *getList({ payload },{select, call, put}){
+    *getList({ payload },{call, put}){
       const { error, result} = yield call(indexApi.getList,{
         ...payload
       })
-      console.log('数据接口返回',result);
+      console.log('数据接口返回',result)
       
       if (!error) {
         yield put({
