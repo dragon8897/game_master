@@ -1,6 +1,6 @@
 const config = {
-  projectName: 'game_master',
-  date: '2020-8-15',
+  projectName: 'gm',
+  date: '2020-8-25',
   designWidth: 750,
   deviceRatio: {
     640: 2.34 / 2,

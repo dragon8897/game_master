@@ -1,7 +1,7 @@
 {
   "miniprogramRoot": "./dist",
-  "projectname": "game_master",
-  "description": "",
+  "projectname": "gm",
+  "description": "game master",
   "appid": "touristappid",
   "setting": {
     "urlCheck": true,

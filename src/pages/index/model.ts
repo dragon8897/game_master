@@ -1,33 +1,20 @@
-import * as indexApi from './service';
 
 export default {
   namespace: 'index',
   state: {
-    data:[],
-    v:'1.0',
+      id: 0,
   },
 
   effects: {
-    *getList({ payload },{call, put}){
-      const { error, result} = yield call(indexApi.getList,{
-        ...payload
-      })
-      console.log('数据接口返回',result)
-      
-      if (!error) {
-        yield put({
-          type: 'save',
-          payload: {
-            data:result.data
-          },
-        })
-      }
-    }
   },
 
   reducers: {
     save(state, { payload }) {
-      return { ...state, ...payload };
+        return { ...state, ...payload }
+    },
+    submit(state, { payload }) {
+        console.log("fff", state)
+        return { ...state, ...payload }
     },
   }
 
