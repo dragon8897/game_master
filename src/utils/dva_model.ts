@@ -54,6 +54,6 @@ export default interface DvaModel<T> {
     subscriptions?: SubscriptionsMapObject;
 }
 
-export type DvaDispatch = {
-    dispatch: Dispatch<any>,
+export type DvaDispatch<T> = {
+    dispatch: Dispatch<Action<T>>,
 }

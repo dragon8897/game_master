@@ -1,8 +1,11 @@
 import DvaModel from "src/utils/dva_model"
 
+export enum IndexType {
+    Tick = "index/tick"
+}
+
 export interface IndexState {
   id: number,
-  name: string,
 }
 
 const delay = (time: number) => {
@@ -17,14 +20,12 @@ export default {
   namespace: 'index',
   state: {
       id: 0,
-      name: "ffkktt",
   },
 
   effects: {
     *tick({ payload }, {put, call}) {
-      console.log("kkkfff", payload)
       yield call(delay, 1500)
-      yield put({ type: "submit" })
+      yield put({ type: "submit", payload })
     }
   },
 
@@ -33,7 +34,7 @@ export default {
         return { ...state, ...payload }
     },
     submit(state, { payload }) {
-        state.id++
+        state.id = parseInt(payload) + 1
         return { ...state, ...payload }
     },
   }

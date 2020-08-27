@@ -15,8 +15,8 @@
     "sourceMap": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "jsx": "react",
-    "jsxFactory": "React.createElement",
+    "jsx": "preserve",
+    "jsxFactory": "Taro.createElement",
     "allowJs": true,
     "resolveJsonModule": true,
     "typeRoots": [
