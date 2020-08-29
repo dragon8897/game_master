@@ -39,18 +39,21 @@ export default class Index extends Component<IndexProps> {
       type: "index/tick",
       payload: e.detail.value.uid,
     })
+    Taro.navigateTo({
+      url: '/pages/detail/detail'
+    })
   }
 
   render () {
     const {id} = this.props
     return (
-      <View className='index' style={{backgroundColor: "pink"}}>
+      <View>
         <Text style={{display: "block", textAlign: "center", fontSize: "50px"}}>GameMaster</Text>
         <Text style={{display: "block", textAlign: "center", fontSize: "30px"}}>游戏数据管理工具</Text>
-        <View style={{minWidth: "300px", width: "50%", height: "300px", margin: "auto", marginTop: "100px", border: "dashed red"}}>
+        <View style={{minWidth: "300px", width: "50%", height: "300px", margin: "auto", marginTop: "100px"}}>
           <Text style={{fontSize: "25px"}}>USER ID:</Text>
           <Form onSubmit={this.onSubmit}>
-            <Input name="uid" style={{border: "thick double", backgroundColor: "gray"}}
+            <Input name="uid" style={{border: "thick", backgroundColor: "gray"}}
               placeholder='这是一个数字输入框'
               value={`${id}`}
               type='number'
