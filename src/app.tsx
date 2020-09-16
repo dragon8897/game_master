@@ -2,6 +2,7 @@ import Taro, { Component, Config } from '@tarojs/taro'
 
 import './app.scss'
 import Index from './pages/index';
+import API from './utils/api';
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -9,9 +10,12 @@ import Index from './pages/index';
 //   require('nerv-devtools')
 // }
 
+
 class App extends Component {
 
-  componentDidMount () {}
+  componentDidMount () {
+    API.init(process.env.NODE_ENV !== "production")
+  }
 
   componentDidShow () {}
 

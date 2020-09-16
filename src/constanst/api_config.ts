@@ -1,4 +1,4 @@
-import { HttpMethod } from "src/utils/api"
+import { HttpMethod } from "../utils/api"
 
 // api 配置信息
 export const APIConfig = {
