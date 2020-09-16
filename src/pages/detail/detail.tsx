@@ -1,41 +1,9 @@
-import Taro, { Component, Config } from '@tarojs/taro'
+import Taro, { Config, useState } from '@tarojs/taro'
 import { View, Text, ScrollView } from '@tarojs/components'
-
 import './detail.scss'
-import { DetailState, DetailAction } from './model'
-import { DvaDispatch } from 'src/utils/dva_model'
-import { connect } from '@tarojs/redux'
 
-type DetailProps = DvaDispatch<DetailAction> & DetailState
-@connect(({ detail }) => ({ ...detail }))
-export default class Detail extends Component<DetailProps> {
+export default function Detail() {
 
-  componentWillMount () { }
-
-  componentDidMount () {
-      this.props.dispatch({
-          type: DetailAction.info
-      })
-  }
-
-  componentWillUnmount () { }
-
-  componentDidShow () { }
-
-  componentDidHide () { }
-
-  /**
-   * 指定config的类型声明为: Taro.Config
-   *
-   * 由于 typescript 对于 object 类型推导只能推出 Key 的基本类型
-   * 对于像 navigationBarTextStyle: 'black' 这样的推导出的类型是 string
-   * 提示和声明 navigationBarTextStyle: 'black' | 'white' 类型冲突, 需要显示声明类型
-   */
-  config: Config = {
-    navigationBarTitleText: '详情页'
-  }
-
-  render () {
     const scrollTop = 0
     const Threshold = 20
     const vStyleA = {
@@ -51,7 +19,11 @@ export default class Detail extends Component<DetailProps> {
         'background-color': 'rgb(241,241,241)',
         color: '#333'
     }
-    const {userId, loveId, neightbourId} = this.props
+
+    const [userId, setUserId] = useState(0)
+    const [loveId, setLoveId] = useState(0)
+    const [neightbourId, setNeightbourId] = useState(0)
+
     return (
       <View>
         <Text style={{display: "block", textAlign: "center", fontSize: "50px"}}>GameMaster</Text>
@@ -81,5 +53,8 @@ export default class Detail extends Component<DetailProps> {
         </ScrollView>
       </View>
     )
-  }
 }
+
+Detail.config = {
+    navigationBarTitleText: '详情页'
+} as Config
