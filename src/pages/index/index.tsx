@@ -7,10 +7,24 @@ import { APIConfig, IAPIUserInfo } from '../../constanst/api_config'
 export default function Index() {
   const [id, setId] = useState(0)
 
-  const handleSubmit = async () => {
-    const data = await API.request<IAPIUserInfo>(APIConfig.GetUserInfo, {user_id: 0})
-    console.log(data.data.lover_id)
-    setId(2)
+  const handleSubmit = async (e: any) => {
+    const uid = parseInt(e.detail.value.uid)
+    setId(uid)
+    Taro.showLoading({
+      title: "加载中",
+    })
+    const {err, data} = await API.request<IAPIUserInfo>(APIConfig.GetUserInfo, {user_id: uid})
+    Taro.hideLoading()
+    if (err) {
+      Taro.showToast({
+        title: err,
+        icon: "none",
+      })
+      return
+    }
+    Taro.navigateTo({
+      url: `/pages/detail/detail?user_id=${data.user_id}&lover_id=${data.lover_id}`
+    })
   }
 
   return (

@@ -1,4 +1,4 @@
-import Taro, { RequestTask } from '@tarojs/taro';
+import Taro from '@tarojs/taro';
 
 export enum HttpMethod {
     OPTIONS,
@@ -12,7 +12,7 @@ export enum HttpMethod {
 }
 
 export default class API {
-    static request<P extends (...args: any) => any>(cfg: {url: string, method: HttpMethod}, ...args: Parameters<P>): RequestTask<ReturnType<P>>  {
+    static request<P extends (...args: any) => any>(cfg: {url: string, method: HttpMethod}, ...args: Parameters<P>): Promise<{err: string, data: ReturnType<P>}>  {
         let m: "OPTIONS" | "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "TRACE" | "CONNECT" = "GET"
         switch (cfg.method) {
             case HttpMethod.OPTIONS:
@@ -40,11 +40,25 @@ export default class API {
                 m = "CONNECT"
                 break
         }
-        return Taro.request({
-            url: this._server + cfg.url,
-            data: args.length > 0 ? args[0] : null,
-            dataType: "json",
-            method: m,
+        return new Promise<{err: any, data: any}>(resolve => {
+            Taro.request({
+                url: this._server + cfg.url,
+                data: args.length > 0 ? args[0] : null,
+                dataType: "json",
+                method: m,
+                fail: (res: any) => {
+                    resolve({
+                        err: res.statusText,
+                        data: null,
+                    })
+                },
+                success: (result: Taro.request.SuccessCallbackResult) => {
+                    resolve({
+                        err: null,
+                        data: result.data,
+                    })
+                }
+            })
         })
     }
 
