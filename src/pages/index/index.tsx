@@ -17,7 +17,7 @@ export default function Index() {
     Taro.hideLoading()
     if (err) {
       Taro.showToast({
-        title: err,
+        title: `${err}`,
         icon: "none",
       })
       return

@@ -48,7 +48,7 @@ export default class API {
                 method: m,
                 fail: (res: any) => {
                     resolve({
-                        err: res.statusText,
+                        err: res.statusText ? res.statusText : res,
                         data: null,
                     })
                 },
