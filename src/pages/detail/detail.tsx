@@ -1,6 +1,8 @@
 import Taro, { Config, useRouter } from '@tarojs/taro'
-import { View, Text, ScrollView } from '@tarojs/components'
+import { View, Text, ScrollView, Button, Input } from '@tarojs/components'
+import { AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui"
 import './detail.scss'
+import "taro-ui/dist/style/components/modal.scss"
 
 export default function Detail() {
 
@@ -32,6 +34,23 @@ export default function Detail() {
             <Text style={{fontSize: "20px", color: "white", display: "block", flex: "1", textAlign: "center"}}>user_id: {userId}</Text>
             <Text style={{fontSize: "20px", color: "white", display: "block", flex: "1", textAlign: "center"}}>lover_id: {loverId}</Text>
         </View>
+        <fieldset style={{display: "flex"}}>
+            <legend>Legend</legend>
+            <div>These fields</div>
+            <div> shouldn't be</div>
+            <div>stacked vertically</div>
+        </fieldset>
+        <AtModal isOpened closeOnClickOverlay={false}>
+            <AtModalHeader>标题</AtModalHeader>
+            <AtModalContent>
+                <Input name="uid" style={{border: "thick", backgroundColor: "gray"}}
+                placeholder='这是一个数字输入框'
+                value={`0`}
+                type='number'
+                maxLength={10}></Input>
+            </AtModalContent>
+            <AtModalAction> <Button>取消</Button> <Button>确定</Button> </AtModalAction>
+        </AtModal>
         <ScrollView
             className='scrollview'
             scrollY
