@@ -1,31 +1,22 @@
-import Taro, { Config, useRouter } from '@tarojs/taro'
-import { View, Text, ScrollView, Button, Input } from '@tarojs/components'
+import Taro, { Config, useRouter, useState } from '@tarojs/taro'
+import { View, Text, Button, Input } from '@tarojs/components'
 import { AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui"
 import './detail.scss'
 import "taro-ui/dist/style/components/modal.scss"
 
 export default function Detail() {
-
-    const scrollTop = 0
-    const Threshold = 20
-    const vStyleA = {
-        height: '150px',
-        'background-color': 'rgb(26, 173, 25)'
-    }
-    const vStyleB = {
-        height: '150px',
-        'background-color': 'rgb(39,130,215)'
-    }
-    const vStyleC = {
-        height: '150px',
-        'background-color': 'rgb(241,241,241)',
-        color: '#333'
-    }
-
+    const [isOpen, setIsOpen] = useState(false)
+    const [inputValue, setInputValue] = useState("")
 
     const router = useRouter()
     const userId = router.params.user_id
     const loverId = router.params.lover_id
+
+    const onModelConfirm = () => {
+        setIsOpen(false)
+        console.log("kkk", inputValue)
+        setInputValue("")
+    }
 
     return (
       <View>
@@ -34,42 +25,24 @@ export default function Detail() {
             <Text style={{fontSize: "20px", color: "white", display: "block", flex: "1", textAlign: "center"}}>user_id: {userId}</Text>
             <Text style={{fontSize: "20px", color: "white", display: "block", flex: "1", textAlign: "center"}}>lover_id: {loverId}</Text>
         </View>
-        <fieldset style={{display: "flex"}}>
-            <legend>Legend</legend>
-            <div>These fields</div>
-            <div> shouldn't be</div>
-            <div>stacked vertically</div>
-        </fieldset>
-        <AtModal isOpened closeOnClickOverlay={false}>
+        <Button onClick={() => {setIsOpen(true)}}>显示</Button>
+        <AtModal isOpened={isOpen} closeOnClickOverlay={false}>
             <AtModalHeader>标题</AtModalHeader>
             <AtModalContent>
                 <Input name="uid" style={{border: "thick", backgroundColor: "gray"}}
-                placeholder='这是一个数字输入框'
-                value={`0`}
-                type='number'
-                maxLength={10}></Input>
+                placeholder='默认输入框'
+                value={inputValue}
+                onInput={(e) => {setInputValue(e.detail.value)}}
+                ></Input>
             </AtModalContent>
-            <AtModalAction> <Button>取消</Button> <Button>确定</Button> </AtModalAction>
+            <AtModalAction>
+                <Button onClick={() => {
+                    setIsOpen(false)
+                    setInputValue("")
+                }}>取消</Button>
+                <Button onClick={onModelConfirm}>确定</Button>
+            </AtModalAction>
         </AtModal>
-        <ScrollView
-            className='scrollview'
-            scrollY
-            scrollWithAnimation
-            scrollTop={scrollTop}
-            style={{marginTop: "0px", marginBottom: "0px"}}
-            lowerThreshold={Threshold}
-            upperThreshold={Threshold}
-        >
-            <View style={vStyleA}>A</View>
-            <View style={vStyleB}>B</View>
-            <View style={vStyleC}>C</View>
-            <View style={vStyleA}>A</View>
-            <View style={vStyleB}>B</View>
-            <View style={vStyleC}>C</View>
-            <View style={vStyleA}>A</View>
-            <View style={vStyleB}>B</View>
-            <View style={vStyleC}>C</View>
-        </ScrollView>
       </View>
     )
 }
