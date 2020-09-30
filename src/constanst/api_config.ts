@@ -6,9 +6,23 @@ export const APIConfig = {
         url: "/gm/user/info",
         method: HttpMethod.GET,
     },
+    GetHandlersInfo: {
+        url: "/gm/handlers/info",
+        method: HttpMethod.GET,
+    },
 }
 
 export type IAPIUserInfo = (params: {user_id: number}) => {
     user_id: number,
     lover_id: number,
+}
+
+export type IAPIHandlersInfo = () => {
+    info: {
+        name: string,
+        handlers: {
+            label: string,
+            params: string[],
+        }[]
+    }[]
 }
