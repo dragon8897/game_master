@@ -10,6 +10,10 @@ export const APIConfig = {
         url: "/gm/handlers/info",
         method: HttpMethod.GET,
     },
+    UpdateHandler: {
+        url: "/gm/handlers/update",
+        method: HttpMethod.POST,
+    },
 }
 
 export type IAPIUserInfo = (params: {user_id: number}) => {
@@ -25,4 +29,15 @@ export type IAPIHandlersInfo = () => {
             params: string[],
         }[]
     }[]
+}
+
+export type IAPIUpdateHandler = (params: {
+    name: string,
+    label: string,
+    params: {
+        user_id?: string,
+        lover_id?: string,
+    }
+}) => {
+    success: boolean
 }

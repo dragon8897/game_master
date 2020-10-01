@@ -4,7 +4,7 @@ import { AtModal, AtModalHeader, AtModalContent, AtModalAction } from "taro-ui"
 import './detail.scss'
 import "taro-ui/dist/style/components/modal.scss"
 import API from '../../utils/api'
-import { APIConfig, IAPIHandlersInfo } from '../../constanst/api_config'
+import { APIConfig, IAPIHandlersInfo, IAPIUpdateHandler } from '../../constanst/api_config'
 
 export default function Detail() {
     const [isOpen, setIsOpen] = useState(false)
@@ -22,7 +22,6 @@ export default function Detail() {
     const loverId = router.params.lover_id
 
     useEffect(() => {
-        console.log("kkkffffff")
         const fetchData = async () => {
             const {err, data} = await API.request<IAPIHandlersInfo>(APIConfig.GetHandlersInfo)
             if (err) {
@@ -38,8 +37,51 @@ export default function Detail() {
         setInputValue("")
     }
 
-    const updateInfo = (name: string, label: string) => {
-        console.log("name", name, label)
+    const updateInfo = async (name: string, label: string) => {
+        for (const info of infos) {
+            if (info.name === name) {
+                for (const h of info.handlers) {
+                    if (h.label === label) {
+                        console.log("update", h.params)
+                        const params: {
+                            user_id?: string,
+                            lover_id?: string,
+                        } = {}
+                        h.params.forEach(p => {
+                            switch (p) {
+                                case "user_id":
+                                    params.user_id = userId
+                                    break
+                                case "lover_id":
+                                    params.lover_id = loverId
+                                    break
+                            }
+                        })
+                        const {err, data} = await API.request<IAPIUpdateHandler>(APIConfig.UpdateHandler, {
+                            name,
+                            label,
+                            params,
+                        })
+                        if (err) {
+                            Taro.showToast({
+                                title: err,
+                            })
+                        }
+                        if (data.success) {
+                            Taro.showToast({
+                                title: "更新成功",
+                            })
+                        } else {
+                            Taro.showToast({
+                                title: "更新失败, 请重试",
+                            })
+                        }
+                        break
+                    }
+                }
+                break
+            }
+        }
     }
 
     return (

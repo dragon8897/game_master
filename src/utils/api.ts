@@ -43,7 +43,7 @@ export default class API {
         return new Promise<{err: any, data: any}>(resolve => {
             Taro.request({
                 url: this._server + cfg.url,
-                data: args.length > 0 ? args[0] : null,
+                data: args.length > 0 ? JSON.stringify(args[0]) : null,
                 dataType: "json",
                 method: m,
                 fail: (res: any) => {
