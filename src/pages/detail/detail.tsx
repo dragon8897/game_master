@@ -5,16 +5,17 @@ import './detail.scss'
 import "taro-ui/dist/style/components/modal.scss"
 import API from '../../utils/api'
 import { APIConfig, IAPIHandlersInfo, IAPIUpdateHandler } from '../../constanst/api_config'
+import { HandlerType, InputType } from '../../constanst/types'
 
 export default function Detail() {
     const [isOpen, setIsOpen] = useState(false)
+    const [title, setTitle] = useState("标题")
+    const [currentName, setCurrentName] = useState("")
+    const [currentLabel, setCurrentLabel] = useState("")
     const [inputValue, setInputValue] = useState("")
     const [infos, setInfos] = useState<{
         name: string,
-        handlers: {
-            label: string,
-            params: string[],
-        }[]
+        handlers: HandlerType[]
     }[]>([])
 
     const router = useRouter()
@@ -34,18 +35,51 @@ export default function Detail() {
 
     const onModelConfirm = () => {
         setIsOpen(false)
+        updateInfo(currentName, currentLabel, inputValue)
         setInputValue("")
     }
 
-    const updateInfo = async (name: string, label: string) => {
+    const showInput = (params: {
+        title: string,
+        type: 'text' | 'number' | 'idcard' | 'digit',
+    }) => {
+        setTitle(params.title)
+        setIsOpen(true)
+    }
+
+    const sendUpdate = async (name: string, label: string) => {
         for (const info of infos) {
             if (info.name === name) {
                 for (const h of info.handlers) {
                     if (h.label === label) {
-                        console.log("update", h.params)
+                        if (h.input !== InputType.None) {
+                            setCurrentLabel(label)
+                            setCurrentName(name)
+                            showInput({
+                                title: name,
+                                type: "text"
+                            })
+                            return
+                        } else {
+                            updateInfo(name, label)
+                        }
+                        break
+                    }
+                }
+                break
+            }
+        }
+    }
+
+    const updateInfo = async (name: string, label: string, input?: string) => {
+        for (const info of infos) {
+            if (info.name === name) {
+                for (const h of info.handlers) {
+                    if (h.label === label) {
                         const params: {
                             user_id?: string,
                             lover_id?: string,
+                            input?: string,
                         } = {}
                         h.params.forEach(p => {
                             switch (p) {
@@ -54,6 +88,9 @@ export default function Detail() {
                                     break
                                 case "lover_id":
                                     params.lover_id = loverId
+                                    break
+                                case "input":
+                                    params.input = input
                                     break
                             }
                         })
@@ -98,17 +135,16 @@ export default function Detail() {
                     <Text>{info.name}</Text>
                     {
                         info.handlers.map(h =>
-                        <Button onClick={() => {updateInfo(info.name, h.label)}}>{h.label}</Button>
+                        <Button onClick={() => {sendUpdate(info.name, h.label)}}>{h.label}</Button>
                         )
                     }
                 </View>)
             }
         </View>
-        <Button onClick={() => {setIsOpen(true)}}>显示</Button>
         <AtModal isOpened={isOpen} closeOnClickOverlay={false}>
-            <AtModalHeader>标题</AtModalHeader>
+            <AtModalHeader>{title}</AtModalHeader>
             <AtModalContent>
-                <Input name="uid" style={{border: "thick", backgroundColor: "gray"}}
+                <Input style={{border: "thick", backgroundColor: "gray"}}
                 placeholder='默认输入框'
                 value={inputValue}
                 onInput={(e) => {setInputValue(e.detail.value)}}
