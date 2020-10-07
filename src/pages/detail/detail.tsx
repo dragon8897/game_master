@@ -131,8 +131,8 @@ export default function Detail() {
         <View>
             {
                 infos.map(info =>
-                <View>
-                    <Text>{info.name}</Text>
+                <View style={{position: "relative", border: "solid", borderRadius: "30px", padding: "30px", maxWidth: "500px", margin: "30px auto"}}>
+                    <Text style={{position: "absolute", top: "-25px", fontSize: "30px", display: "inline", backgroundColor: "white"}}>{info.name}</Text>
                     {
                         info.handlers.map(h =>
                         <Button onClick={() => {sendUpdate(info.name, h.label)}}>{h.label}</Button>
