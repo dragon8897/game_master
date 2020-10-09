@@ -135,7 +135,7 @@ export default function Detail() {
                     <Text style={{position: "absolute", top: "-25px", fontSize: "30px", display: "inline", backgroundColor: "white"}}>{info.name}</Text>
                     {
                         info.handlers.map(h =>
-                        <Button onClick={() => {sendUpdate(info.name, h.label)}}>{h.label}</Button>
+                        <Button type="primary" onClick={() => {sendUpdate(info.name, h.label)}}>{h.label}</Button>
                         )
                     }
                 </View>)

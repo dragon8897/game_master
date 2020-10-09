@@ -66,7 +66,7 @@ export default class API {
         if (debug) {
             this._server = "http://localhost:9999"
         } else {
-            this._server = "https://flybird.ml:9999"
+            this._server = "https://flybird.ml"
         }
     }
 
