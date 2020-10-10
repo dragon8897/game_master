@@ -26,6 +26,9 @@ export default function Detail() {
         const fetchData = async () => {
             const {err, data} = await API.request<IAPIHandlersInfo>(APIConfig.GetHandlersInfo)
             if (err) {
+                Taro.showToast({
+                    title: err,
+                })
                 return
             }
             setInfos(data.info)
@@ -103,6 +106,7 @@ export default function Detail() {
                             Taro.showToast({
                                 title: err,
                             })
+                            return
                         }
                         if (data.success) {
                             Taro.showToast({

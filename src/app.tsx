@@ -33,6 +33,7 @@ class App extends Component {
   config: Config = {
     pages: [
       'pages/index/index',
+      'pages/login/login',
       'pages/detail/detail',
     ],
     window: {

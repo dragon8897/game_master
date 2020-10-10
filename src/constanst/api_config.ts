@@ -3,6 +3,10 @@ import { HandlerType } from "./types"
 
 // api 配置信息
 export const APIConfig = {
+    Login: {
+        url: "/gm/user/login",
+        method: HttpMethod.POST,
+    },
     GetUserInfo: {
         url: "/gm/user/info",
         method: HttpMethod.GET,
@@ -15,6 +19,12 @@ export const APIConfig = {
         url: "/gm/handlers/update",
         method: HttpMethod.POST,
     },
+}
+
+export type IAPILogin = (params: {
+    code: string,
+}) => {
+    success: boolean
 }
 
 export type IAPIUserInfo = (params: {user_id: number}) => {
