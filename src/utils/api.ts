@@ -46,6 +46,7 @@ export default class API {
                 data: args.length > 0 ? (m === "GET" ? args[0] : JSON.stringify(args[0])) : null,
                 dataType: "json",
                 method: m,
+                credentials: "include",
                 fail: (res: any) => {
                     resolve({
                         err: res.statusText ? res.statusText : res,

@@ -59,6 +59,7 @@ const config = {
     esnextModules: ['taro-ui'],
     publicPath: './',
     staticDirectory: 'static',
+    devServer: {port: 10086, host: "localhost"},
     postcss: {
       autoprefixer: {
         enable: true,
