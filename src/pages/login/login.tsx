@@ -39,10 +39,23 @@ export default function Login() {
         const {err, data} = await API.request<IAPIUserInfo>(APIConfig.GetUserInfo, {user_id: uid})
         Taro.hideLoading()
         if (err) {
-            Taro.showToast({
-                title: `${err}`,
-                icon: "none",
-            })
+            if (err === "Unauthorized") {
+                Taro.showModal({
+                    title: '提示',
+                    content: '权限校验失败, 请重新登录',
+                    showCancel: false,
+                    success: function () {
+                        Taro.navigateTo({
+                            url: `/pages/index/index`
+                        })
+                    }
+                })
+            } else {
+                Taro.showToast({
+                    title: `${err}`,
+                    icon: "none",
+                })
+            }
             return
         }
         Taro.navigateTo({

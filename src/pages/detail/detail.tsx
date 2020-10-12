@@ -26,9 +26,22 @@ export default function Detail() {
         const fetchData = async () => {
             const {err, data} = await API.request<IAPIHandlersInfo>(APIConfig.GetHandlersInfo)
             if (err) {
-                Taro.showToast({
-                    title: err,
-                })
+                if (err === "Unauthorized") {
+                    Taro.showModal({
+                        title: '提示',
+                        content: '权限校验失败, 请重新登录',
+                        showCancel: false,
+                        success: function () {
+                            Taro.navigateTo({
+                                url: `/pages/index/index`
+                            })
+                        }
+                    })
+                } else {
+                    Taro.showToast({
+                        title: err,
+                    })
+                }
                 return
             }
             setInfos(data.info)
@@ -103,9 +116,22 @@ export default function Detail() {
                             params,
                         })
                         if (err) {
-                            Taro.showToast({
-                                title: err,
-                            })
+                            if (err === "Unauthorized") {
+                                Taro.showModal({
+                                    title: '提示',
+                                    content: '权限校验失败, 请重新登录',
+                                    showCancel: false,
+                                    success: function () {
+                                        Taro.navigateTo({
+                                            url: `/pages/index/index`
+                                        })
+                                    }
+                                })
+                            } else {
+                                Taro.showToast({
+                                    title: err,
+                                })
+                            }
                             return
                         }
                         if (data.success) {
